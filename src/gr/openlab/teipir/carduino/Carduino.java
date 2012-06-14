@@ -37,7 +37,7 @@ import at.abraxas.amarino.Amarino;
 
 public class Carduino extends Activity implements SensorEventListener{
    
-	private String DEVICE_ADDRESS="00:12:01:11:06:53";
+	private String DEVICE_ADDRESS=""; //Your Bluetooth MAC Address here
 	public Button fw,bw;
 	private double sensorY;
 	private boolean f = false, b = false;
