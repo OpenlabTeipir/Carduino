@@ -2,7 +2,11 @@
 
 Carduino is the first project from the team that created the Openlab, an open-source oriented laboratory in the Dpt. of Electronics Computer Systems Engineering at Technological Education Institute of Piraeus. It is a smartphone controled (previously) radio controlled car.
 
+##The main idea
+
 The idea came in the early days of Openlab when we mainly wanted to explore the possibilities of the Arduino and to connect it with our Android smartphones and build something cool to play with.
+
+##Developing the software and hardware
 
 So, we began building the hardware and the software of the remote control car. In a week we had a first draft of the project with $5 car and a ugly looking Android app. 
 
