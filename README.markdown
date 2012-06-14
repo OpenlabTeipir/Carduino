@@ -13,3 +13,25 @@ So, we began building the hardware and the software of the remote control car. I
 The experiment had worked and it was out in the open. We took a more expensive car and this time tried to apply the lessons we had learned during the building of the prototype. 
 
 After a month or so, rebuilding and tweaking the project from the beginning we had a full working car with a new improved Android app featuring a comprehensive and joyfull (yet simple) user interface to play with.
+
+##Libraries to include
+
+__bold__Amarino App
+[this is a link](http://code.google.com/p/amarino/downloads/detail?name=Amarino_2_v0_55.apk&can=2&q=)
+
+
+
+__bold__Amarino Lib
+[this is a link](http://code.google.com/p/amarino/downloads/detail?name=MeetAndroid_4.zip&can=2&q=)
+
+-----
+
+##Credits
+
+The hardware was designed and printed on PCB by Herc Trapierakis.
+
+The Arduino code was written by Herc Trapierakis and Phil Georgantas
+
+The Android app was developed by Evaggelos Avgerinos and the user interface was designed and developed by Dimitris Tsironis.
+
+The whole Openlab team debugged and tweaked the project.
