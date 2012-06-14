@@ -16,12 +16,12 @@ After a month or so, rebuilding and tweaking the project from the beginning we h
 
 ##Libraries to include
 
-__bold__Amarino App
+__Amarino App__
 [this is a link](http://code.google.com/p/amarino/downloads/detail?name=Amarino_2_v0_55.apk&can=2&q=)
 
 
 
-__bold__Amarino Lib
+__Amarino Lib__
 [this is a link](http://code.google.com/p/amarino/downloads/detail?name=MeetAndroid_4.zip&can=2&q=)
 
 -----
