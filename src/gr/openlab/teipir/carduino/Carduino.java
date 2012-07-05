@@ -1,4 +1,4 @@
-/* Carduino v1.0 
+/* Carduino v1.1 
  * Openlab {
  * 	Site: openlab.teipir.gr
  * 	email: admin@openlab.teipir.gr 
@@ -30,110 +30,82 @@ import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import at.abraxas.amarino.Amarino;
 
-public class Carduino extends Activity implements SensorEventListener{
-   
-	private String DEVICE_ADDRESS=""; //Your Bluetooth MAC Address here
-	public Button fw,bw;
+public class Carduino extends Activity implements SensorEventListener,
+		OnTouchListener {
+
+	private String DEVICE_ADDRESS = ""; // Your Bluetooth MAC Address here
+	private Button fw, bw;
 	private double sensorY;
 	private boolean f = false, b = false;
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
-                                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.carduino);
-        fw = (Button) findViewById(R.id.fw);
-        bw = (Button) findViewById(R.id.bw);
-        SensorManager sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if(sm.getSensorList(Sensor.TYPE_ACCELEROMETER).size() != 0){
-        	Sensor s = sm.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
-        	sm.registerListener(this,s,SensorManager.SENSOR_DELAY_GAME);
-        }
-        Amarino.connect(Carduino.this, DEVICE_ADDRESS);
-                
-        //Setting the touch listener for FW button.
-        fw.setOnTouchListener(new View.OnTouchListener() {
-			
-			public boolean onTouch(View v, MotionEvent e) {
-				switch(e.getAction()){
-				case MotionEvent.ACTION_DOWN:{
-					Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '8');
-					f=true;
-					return true; 
-					}
-				case MotionEvent.ACTION_UP: {
-					Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '5');
-					f=false;
-					return false; 
-					}
-				}
-				return false;
-			}
-		});
-        
-        //Setting the touch listener for BW button.
-        bw.setOnTouchListener(new View.OnTouchListener() {
-			
-			public boolean onTouch(View v, MotionEvent e) {
-				switch(e.getAction()){
-				case MotionEvent.ACTION_DOWN:{ 
-					Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '2');
-					b=true;
-					return true;
-					}
-				case MotionEvent.ACTION_UP: {
-					Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '5');
-					b=false;
-					return false;
-					}
-				}
-				return false;
-			}
-		});
-    }
-	
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.carduino);
+		initialize();
+
+	}
+
+	/* Initializes Stuff */
+	private void initialize() {
+		fw = (Button) findViewById(R.id.fw);
+		bw = (Button) findViewById(R.id.bw);
+		bw.setOnTouchListener(this);
+		fw.setOnTouchListener(this);
+		SensorManager sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		if (sm.getSensorList(Sensor.TYPE_ACCELEROMETER).size() != 0) {
+			Sensor s = sm.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
+			sm.registerListener(this, s, SensorManager.SENSOR_DELAY_GAME);
+		}
+		Amarino.connect(Carduino.this, DEVICE_ADDRESS);
+	}
+
+	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		// Nothing to do here
-		
+
 	}
 
 	public void onSensorChanged(SensorEvent event) {
-		
-		if(event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+
+		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			sensorY = event.values[1];
 		}
-		
-		if(f){
-			if(sensorY > 0.900){
-				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '9');
-			}
-			else if(sensorY < -0.900){
-				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '7');
-			}
-			else{
-				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '8');
-			}
-		}
-		
-		if(b){
-			if(sensorY > 0.900){
-				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '3');
-			}
-			else if(sensorY < -0.900){
-				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '1');
-			}
-			else{
-				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#', '2');
+
+		if (f) {
+			if (sensorY > 0.900) {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'9');
+			} else if (sensorY < -0.900) {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'7');
+			} else {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'8');
 			}
 		}
-		
+
+		if (b) {
+			if (sensorY > 0.900) {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'3');
+			} else if (sensorY < -0.900) {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'1');
+			} else {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'2');
+			}
+		}
+
 	}
 
 	@Override
@@ -152,7 +124,43 @@ public class Carduino extends Activity implements SensorEventListener{
 		finish();
 	}
 
+	public boolean onTouch(View v, MotionEvent event) {
+		switch (v.getId()) {
+		// Case BW
+		case R.id.bw:
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN: {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'2');
+				b = true;
+				break;
+			}
+			case MotionEvent.ACTION_UP: {
+				Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS, '#',
+						'5');
+				b = false;
+				break;
+			}
+			// Case FW
+			case R.id.fw:
+				switch (event.getAction()) {
+				case MotionEvent.ACTION_DOWN: {
+					Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS,
+							'#', '8');
+					f = true;
+					break;
+				}
+				case MotionEvent.ACTION_UP: {
+					Amarino.sendDataToArduino(Carduino.this, DEVICE_ADDRESS,
+							'#', '5');
+					f = false;
+					break;
+				}
 
-    
-    
+				}
+				break;
+			}
+		}
+		return true;
+	}
 }
